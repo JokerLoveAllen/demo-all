@@ -48,7 +48,7 @@ object SparkTest {
     } else if("9".equals(info)){
 
     } else {
-      println("没有[%s]模式".format(info))
+      println("没有[%s] 模式".format(info))
     }
   }
 
