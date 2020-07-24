@@ -24,7 +24,7 @@ object SparkTest {
   def main(args: Array[String]) : Unit = {
     val size = args.length
     if(size < 1){
-      println("缺少必填参数, 退出....")
+      println("缺少必填参数, 退出.....")
       return
     }
     val info = args(0)
