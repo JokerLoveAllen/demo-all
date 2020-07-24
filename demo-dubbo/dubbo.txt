@@ -1,0 +1,11 @@
+1 Dubbo SPI
+	Dubbo内部大量的使用ExtensionLoader扩展Jdk SPI功能实现基于配置的动态服务提供
+	扩展了java中SPI功能,充分体现了面向对象(接口)编程,其中有DI(依赖注入);AOP(面向切面),调用者可以动态的扩展功能(开闭原则)
+	ExtensionLoader 是所有dubbo SPI功能的入口类; ExtensionLoader自身是单例模式,增强了java.util.ServiceLoader功能, alibaba的sentinel是基于JDK的SPI;
+ 	JDK spi 和 DUBBO spi 是不符合双亲委派的类加载机制
+ 	分类:
+ 		@Adaptive自适应拓展实现类标志
+ 		Dubbo Adaptive 模式在整个框架中运用十分广泛，如果用户没有在 URL 中进行自定义，Dubbo 默认会去加载扩展点接口上 @SPI标注的内容,如果此注解没有值，那么我们就必须要在 URL 中进行值的传递了。如果我们想覆盖 Dubbo 默认的实现策略。可以通过在 URL 中增加 key-value的形式来改变。这样一个组件充分体现了设计模式,对修改关闭，对扩展开放的原则。
+ 		@Activate自动激活条件的标记
+ 		Dubbo Activate是对SPI的另一大拓展,内部实现了分组，排序的Adaptive不支持的属性,适合在不修改服务接口时自定义实现新的服务提供者;
+ 2

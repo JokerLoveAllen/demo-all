@@ -1,0 +1,7 @@
+com:
+  qianlima:
+    info: 中文会乱码吗?
+
+logging:
+  level:
+    root: warn

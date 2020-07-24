@@ -1,0 +1,9 @@
+server:
+  port: 9637
+spring:
+  application:
+    name: solr-demo
+logging:
+  level:
+    root: info
+    org.apache.http.impl: debug

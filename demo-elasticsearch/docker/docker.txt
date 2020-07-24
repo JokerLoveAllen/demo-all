@@ -1,0 +1,69 @@
+1. linux 查询docker虚拟的linux目录, ps aux | grep docker 得到如下内容
+root      9249  0.0  0.0 108748  8656 ?        Sl   8月26   0:33 containerd-shim -namespace moby...
+其中-runtime-root中有一个 目录信息,展开后有：
+/var/run/docker/runtime-runc/moby/f57ab5fa32504b1bacfaddc878d629f3ed75fdd55dde03bca8745c81bc30a9bd/state.json
+state.json存放了运行时创建的rootfs顶层部分:
+"rootfs": "/var/lib/docker/devicemapper/mnt/1f762974d626bd109a163ed967770897158d7211dbd74ec70959c8c138260f25/rootfs"
+展开这个目录是一个虚拟的linux系统
+2. 常用命令 docker基于go编写,但是在使用help命令时采用help在后{go:go help modules, docker: docker container [--]help}
+   a) 通过 docker images [ls] 查看本机所有的docker镜像images
+   b) 命令 docker container ls -a 查看所有的本机器运行的docker容器记录?
+   c) 命令 docker run -it `name` bash 进入某一个docker的交互式bash界面
+	## Display Docker version and info
+	docker [--version | version]
+	docker info
+	##
+	docker build -t friendlyhello .  		 #在当前目录使用Dockerfile docker构建镜像
+	docker container ls [-a]              		  #当前运行[包含历史运行]的docker容器
+	docker container stop <hash>    	# graceful依照docker hash优雅的停止docker容器
+	docker container kill <hash>        	# force 依照docker hash强制停止docker容器
+	docker container rm <hash>        				# 依照 docker hash 移除docker容器
+	docker container rm $(docker container ls -a -q)           # 移除所有的docker容器
+	docker image ls -a                             	   # 显示当前机器的所有docker镜像
+	docker image rm <image id>            			 # 依照 image hash 移除docker镜像
+	docker image rm $(docker image ls -a -q)  					 # 移除所有docker镜像	
+3. 拉取
+   a)使用docker pull从远端拉取镜像文件[elasticsearch 为例子]
+		示例:docker pull docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+   b)拉取完成后,使用命令docker images 可以查看新pull的镜像文件,需要加 :tag
+   c)运行容器[dev环境]：[说明:-d代表后台运行,--name代表名称，-p 9700:9200代表宿主机器的9700端口映射容器的9200端口,
+			-v 代表将宿主机的文件地址映射到容器的路径即容器的地址会使用宿主机的文件地址]
+	docker run -d --name elasticsearch \  
+   -p 9700:9200 -p 9800:9300 \
+   -e "discovery.type=single-node" \
+   -v local-config/dir:/usr/share/elasticsearch/config \
+   -v local-data/dir:/usr/share/elasticsearch/data \
+   docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+4. elasticsearch补充:
+   访问基本语法: http://${IpPath}:${Port}/${database}/${table}/${key} 
+   [注意这里的db,table,key只是以关系型来理解,并非实际含义!]
+   测试es docker镜像容器的心跳: curl http://${IpPath}:${Port}/_cat/health
+   elastic对外提供的接口是RESTFUL风格的, PUT/POST是新增:
+   新增例子: POST/PUT http://192.168.30.13:9700/qianlima/website/1
+   搜索例子：GET http://192.168.30.13:9700/qianlima/website/_search?q=zhao [搜索全部的按照query条件打分]
+   复杂搜索: GET http://192.168.30.13:9700/qianlima/_search
+		查询index[db]中的指定列倒排限定数量:
+		GET qianlima/website/_search 
+		{
+		  "query": {"match_all": {}},
+		  "sort":[{"level": "desc"}],
+		  "from": 1,
+		  "size": 2
+		}
+5. 使用docker-compose安装环境:[以elasticsearch-kibana为例]
+   a) 在https://github.com/docker/compose/releases找稳定版的安装可执行文件并且chmod 加执行权限
+   b) 撰写docker-compose.yml主配置文件,然后同一个目录启动, 网址(https://stackoverflow.com/a/44005640)
+   c) docker-compose up命令启动docker-compose配置的容器组
+6. docker elasticsearch 安装 ik分词:
+	a)进入es的docker容器: docker run -it `name` bash
+	b)docker-compose命令: docker-compose exec elasticsearch elasticsearch-plugin \
+	install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.3.1/elasticsearch-analysis-ik-7.3.1.zip
+7. elasticsearch search搜索特性(es7.3.1 简略):
+   https://stackoverflow.com/a/26003404
+   a) fuzzy: 模糊匹配{按照一定模糊规则}, {field: "i will come back"} 执行 {"fuzzy":{"field": "ome"} 将返回这个field
+   b) term: 单词匹配(大小写敏感)：单词不忽视大小写并且必须在内容中出现,只在倒排索引中搜索出来的选项
+   c) match_phrase: 全部的单词匹配(空格分隔,大小写不敏感),匹配所有的子条目必须出现在内容中;必须按照给定的匹配子条目顺序
+		Because he very 匹配-> because he is very nice and headsome guy 
+		because he headsome 不匹配-> because he is very nice and headsome guy 
+   d) query_string: 默认搜索输入单词,支持通配符和逻辑运算(&|etc..),可以不按照输入单词顺序进行匹配(除非以引号包含);
+   e) match: 会使用分词器进行查询,会匹配所有分词中出现一次条目的内容;

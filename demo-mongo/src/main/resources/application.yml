@@ -1,0 +1,32 @@
+# #single datasource
+spring:
+  data:
+    mongodb:
+      host: 192.168.30.12
+      port: 27017
+      database: qlmdb
+
+# #mutipart datasource
+#  data:
+#    mongodb:
+#      primary:
+#        host: 118.190.237.106
+#        port: 27017
+#        database: qlmdb
+#        username: qlmdbWriter
+#        password: BiZABmylyAOz
+#        authenticationDatabase: qlmdb
+#        uri: "mongodb://qlmdbWriter:BiZABmylyAOz@118.190.237.106:27017/qlmdb"
+#      secondary:
+#        host: 118.190.237.106
+#        port: 27017
+#        database: company_info_tianyan_document
+#        username: tycWriter
+#        password: dFThqkPhUBg6
+#        authenticationDatabase: company_info_tianyan_document
+#        uri: "mongodb://tycWriter:dFThqkPhUBg6@118.190.237.106:27017/company_info_tianyan_document"
+
+logging:
+  level:
+    root: warn
+    org.springframework.data.mongodb.core: info

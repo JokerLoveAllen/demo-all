@@ -1,0 +1,19 @@
+elasticsearch:
+  tcpPort: 9300
+  httpPort: 9200
+  host: 152.136.194.249 # elasticsearch01
+  cluster: fenxiang
+  useTcp: false
+  goods:
+    index: goods_recommend
+    type: goods
+  rest:
+    username:
+    password:
+
+server:
+  port: 8982
+
+spring:
+  application:
+    name: BootEs

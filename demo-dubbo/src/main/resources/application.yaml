@@ -1,0 +1,35 @@
+logging.file: ./logs/enterprise-winning-provider.log
+logging:
+  file:
+    max-history: 30
+  level:
+    root: info
+
+dubbo:
+  scan:
+    base-packages: com.qianlima.demo.dubbo.producer
+  protocols:
+    dubbo:
+      name: dubbo
+      port: -1
+      server: netty
+    rest:
+      name: rest
+      port: 9963
+      server: netty
+  registry:
+    address: nacos://192.168.30.13:8848
+  application:
+    name: mutipart_protocal
+#  cloud:
+#    subscribed-services: com-qianlima-service-service-provider
+
+
+spring:
+  application:
+    name: mutipart_protocal
+  main:
+    allow-bean-definition-overriding: true
+#    web-application-type: none
+#  profiles:
+#    active: dev

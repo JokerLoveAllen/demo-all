@@ -1,0 +1,140 @@
+
+# 建表预分区
+create 'my_schema.goods_push',{NAME =>'0', COMPRESSION => 'SNAPPY'}, {SPLITS => ['10000000000000000','20000000000000000','30000000000000000','40000000000000000','50000000000000000','60000000000000000','70000000000000000','80000000000000000','90000000000000000','100000000000000000','110000000000000000','120000000000000000','130000000000000000','140000000000000000','150000000000000000','160000000000000000','170000000000000000','180000000000000000','190000000000000000','200000000000000000','210000000000000000','220000000000000000','230000000000000000','240000000000000000','250000000000000000','260000000000000000','270000000000000000','280000000000000000','290000000000000000','300000000000000000','310000000000000000','320000000000000000','330000000000000000','340000000000000000','350000000000000000','360000000000000000','370000000000000000','380000000000000000','390000000000000000','400000000000000000','410000000000000000','420000000000000000','430000000000000000','440000000000000000','450000000000000000','460000000000000000','470000000000000000','480000000000000000','490000000000000000','500000000000000000','510000000000000000','520000000000000000','530000000000000000','540000000000000000','550000000000000000','560000000000000000','570000000000000000','580000000000000000','590000000000000000']}
+
+CREATE TABLE IF NOT EXISTS my_schema.goods_push (unique_id VARCHAR(32) not null, goods_push_id integer, message_id VARCHAR(64), user_id integer, robot_id integer, group_id integer, sku_id CHAR(32), sku_name VARCHAR(512), material_url VARCHAR(1024), jd_price VARCHAR(255), image_url VARCHAR(1024), pin_gou_price VARCHAR(255), coupon_price VARCHAR(255), coupon_url VARCHAR(1024), coupon_discount CHAR(255), commission VARCHAR(255), reasons VARCHAR(1024), promotion_text VARCHAR(2000), source VARCHAR(255), error_msg VARCHAR(255), img_url_List VARCHAR(1024), commission_share VARCHAR(255), type TINYINT, status TINYINT, created DATE, modified DATE, CONSTRAINT pk PRIMARY KEY (unique_id)) 
+ COMPRESSION='SNAPPY'  SPLIT ON (100000000000000000,250000000000000000,400000000000000000,550000000000000000,700000000000000000,850000000000000000,1000000000000000000,1150000000000000000,1300000000000000000,1450000000000000000,1600000000000000000,1750000000000000000,1900000000000000000,2050000000000000000,2200000000000000000,2350000000000000000,2500000000000000000,2650000000000000000,2800000000000000000,2950000000000000000,3100000000000000000,3250000000000000000,3400000000000000000,3550000000000000000,3700000000000000000,3850000000000000000,4000000000000000000,4150000000000000000,4300000000000000000,4450000000000000000,4600000000000000000,4750000000000000000,4900000000000000000,5050000000000000000,5200000000000000000,5350000000000000000,5500000000000000000,5650000000000000000,5800000000000000000,5950000000000000000)
+	
+	CREATE TABLE IF NOT EXISTS my_schema.goods_push (unique_id VARCHAR(32) not null, goods_push_id integer, message_id VARCHAR(64), user_id integer, robot_id integer, group_id integer, sku_id CHAR(32), sku_name VARCHAR(512), material_url VARCHAR(1024), jd_price VARCHAR(255), image_url VARCHAR(1024), pin_gou_price VARCHAR(255), coupon_price VARCHAR(255), coupon_url VARCHAR(1024), coupon_discount CHAR(255), commission VARCHAR(255), reasons VARCHAR(1024), promotion_text VARCHAR(2000), source VARCHAR(255), error_msg VARCHAR(255), img_url_List VARCHAR(1024), commission_share VARCHAR(255), type TINYINT, status TINYINT, created DATE, modified DATE, CONSTRAINT pk PRIMARY KEY (unique_id)) 
+ COMPRESSION='SNAPPY'  SPLIT ON ('01|','03|','05|','07|','09|','11|','13|','15|','17|','19|','21|','23|','25|','27|','29|','31|','33|','35|','37|','39|','41|','43|','45|','47|','49|','51|','53|','55|','57|','59|')
+ 
+	预分区
+	alter 'MY_SCHEMA.GOODS_PUSH' ,  NAME => '0', COMPRESSION => 'snappy', SPLITS => ['10000000000000000','20000000000000000','30000000000000000','40000000000000000','50000000000000000','60000000000000000','70000000000000000','80000000000000000','90000000000000000','100000000000000000','110000000000000000','120000000000000000','130000000000000000','140000000000000000','150000000000000000','160000000000000000','170000000000000000','180000000000000000','190000000000000000','200000000000000000','210000000000000000','220000000000000000','230000000000000000','240000000000000000','250000000000000000','260000000000000000','270000000000000000','280000000000000000','290000000000000000','300000000000000000','310000000000000000','320000000000000000','330000000000000000','340000000000000000','350000000000000000','360000000000000000','370000000000000000','380000000000000000','390000000000000000','400000000000000000','410000000000000000','420000000000000000','430000000000000000','440000000000000000','450000000000000000','460000000000000000','470000000000000000','480000000000000000','490000000000000000','500000000000000000','510000000000000000','520000000000000000','530000000000000000','540000000000000000','550000000000000000','560000000000000000','570000000000000000','580000000000000000','590000000000000000']
+	
+	391821042020000005
+	10000000000000000
+	upsert into my_schema.goods_push(message_id,user_id,robot_id,group_id,sku_id,promotion_text,source,type,status,created,modified)
+	values('57e8cc16444e4666aac84de931d2f92c',1862748,11232,1855622,'66092512021',
+	'😜39.9元内购金丝绒高腰阔腿裤，早春上新啦❗ \n\n【旗舰店】梦依婻女士高腰阔腿丝绒裤\n🌺高级金丝绒材质，特别有垂感，舒适不褶皱！\n🌺高腰设计，突出腰部曲线，还送运费险哦！\n——————————\n京东价：129.9元\n内购价：  39.9元💖\n入口👉https://u.jd.com/Hj5zez', 
+	'1862748_11232_0_0_0_0_0_0_1855622',6,1,'2020-03-31 15:49:59','2020-03-31 15:49:59')
+	UPDATE goods.goods_push_20200331 SET 
+	message_id = '57e8cc16444e4666aac84de931d2f92c',
+	user_id = 1862748, 
+	robot_id = 11232, 
+	group_id = 1855622, 
+	sku_id = '66092512021',
+	sku_name = '', material_url = '', jd_price = '', image_url = '', 
+	pin_gou_price = '', coupon_price = '', coupon_url = '', coupon_discount = NULL,
+	commission = '', reasons = NULL, 
+	promotion_text = '😜39.9元内购金丝绒高腰阔腿裤，早春上新啦❗ \n\n【旗舰店】梦依婻女士高腰阔腿丝绒裤\n🌺高级金丝绒材质，特别有垂感，舒适不褶皱！\n🌺高腰设计，突出腰部曲线，还送运费险哦！\n——————————\n京东价：129.9元\n内购价：  39.9元💖\n入口👉https://u.jd.com/Hj5zez', 
+	source = '1862748_11232_0_0_0_0_0_0_1855622',
+	error_msg = NULL,
+	type = 6,
+	status = 1,
+	created = '2020-03-31 15:49:59', 
+	modified = '2020-03-31 15:49:59',
+	img_url_List = NULL, commission_share = '' WHERE goods_push_id = 1506208;
+	
+	1.  CDH：全称Cloudera’s Distribution Including Apache Hadoop。
+	2. 
+
+
+
+	
+	
+	
+n	t	l	p
+goods_push_id	int		10
+message_id	varVARCHAR	64	
+user_id	int		10
+robot_id	int		10
+group_id	int		10
+sku_id	varVARCHAR	32	
+sku_name	varVARCHAR	512	
+material_url	varVARCHAR	1024	
+jd_price	varVARCHAR	255	
+image_url	varVARCHAR	1024	
+pin_gou_price	varVARCHAR	255	
+coupon_price	varVARCHAR	255	
+coupon_url	varVARCHAR	1024	
+coupon_discount	varVARCHAR	255	
+commission	varVARCHAR	255	
+reasons	varVARCHAR	1024	
+promotion_text	varVARCHAR	2000	
+source	varVARCHAR	255	
+error_msg	varVARCHAR	255	
+type	tinyint		3
+status	tinyint		3
+created	datetime		
+modified	datetime		
+img_url_List	varVARCHAR	1024	
+commission_share	varVARCHAR	255	
+
+
+--upsert into my_schema.goods_push(message_id, user_id, robot_id, group_id, sku_id, sku_name, material_url, jd_price, image_url, pin_gou_price, coupon_price, coupon_url, coupon_discount, commission, reasons, promotion_text, source, error_msg, type, status, created, modified, img_url_List, commission_share) VALUES ('2988dfbafc044654bc5e90222464480d', 65637, 190, 24509, '66092512021', '', '', '', '', '', '', '', NULL, '', NULL, '😜39.9元内购金丝绒高腰阔腿裤，早春上新啦❗ \n\n【旗舰店】梦依婻女士高腰阔腿丝绒裤\n🌺高级金丝绒材质，特别有垂感，舒适不褶皱！\n🌺高腰设计，突出腰部曲线，还送运费险哦！\n——————————\n京东价：129.9元\n内购价：  39.9元💖\n入口👉https://u.jd.com/UpTHnv', '65637_190_0_0_0_0_0_0_24509', NULL, 6, 1, '2020-03-31 15:57:34', '2020-03-31 15:57:34', NULL, '')
+select count(1) from my_schema.goods_push
+
+delete from my_schema.goods_push
+
+--select * from my_schema.goods_push limit 1
+drop table if exists my_schema.goods_push
+
+{
+        "status": 0,
+        "created": 1586412401000,
+        "modified": 1586412401000,
+        "goodsPushId": null,
+        "messageId": null,
+        "userId": 998889,
+        "groupId": 333,
+        "robotId": 111,
+        "skuId": "28985137230",
+        "skuName": "新鲜荔枝 三月红荔枝   3斤",
+        "materialUrl": "http://item.jd.com/28985137230.html",
+        "imageUrl": "http://img14.360buyimg.com/n6/jfs/t1/115154/34/102/310831/5e870392E9b75a3b9/fe88dd04196ed1a3.jpg",
+        "jdPrice": "99.0",
+        "pinGouPrice": "",
+        "couponPrice": "79.00",
+        "couponUrl": "http://coupon.m.jd.com/coupons/show.action?key=008ea52de305445e8e7c4ae4497b3395&roleId=29360466&to=shenxian.jd.com",
+        "couponDiscount": "20",
+        "reasons": "【莘县馆】新鲜荔枝 三月红荔枝 新鲜水果 现摘现发 1.5kg",
+        "commission": "7.46",
+        "source": "3646417_0_1_0_0_0",
+        "errorMsg": null,
+        "type": 1,
+        "promotionText": "【莘县馆】新鲜荔枝 三月红荔枝 新鲜水果 现摘现发 1.5kg\n\n【京东】新鲜荔枝 三月红荔枝   3斤\n————————————\n商城价：99.0元\n券后价：79.00元\n入口👉https://u.jd.com/soxRPY",
+        "commissionShare": "20.00",
+        "uniqueId":"81729042020000006"
+    }
+
+设置机器名称为相关名称(hadoop01...),，配置三台机器的Host为内网地址，使用 ssh-keygen -t rsa设置免密登录
+
+mmHHddMMyyyy + ${userid:10} + ssSSS + ${random:2}
+
+'01|' ... '59|'
+
+{\"isCoupon\":\"1\",\"keyword\":\"\u9505\",\"pageIndex\":\"1\",\"pageSize\":\"20\"}
+
+{"@timestamp":"2020-05-08T00:00:00.433+08:00","@version":1,"message":"\u8C03\u7528 [ http://goods.mall.ixiaocong.com/goods/search ] , request= {\"keyword\":\"\u6B27\u83B1\u96C5\",\
+"pageIndex\":\"1\",\"pageSize\":\"20\"}, response= {\"msg\":\"\u6210\u529F\",\"code\":0,\"data\":{\"skuList\":[, \u8017\u65F6= 305 ms","logger_name":"com.xiaocong.mall.goods.common
+.ControllerAspect","thread_name":"http-nio-8003-exec-46","level":"INFO","level_value":20000,"appname":"mall-goods"}
+
+
+select count(*) from  my_schema.goods_push where unique_id between 110419032020: and 110419032020/
+
+select * from  my_schema.search_keyword order by TO_NUMBER(cnt) desc limit 200;
+
+drop table my_schema.search_keyword 
+
+CREATE TABLE IF NOT EXISTS my_schema.search_keyword (keyword VARCHAR(255) not null, cnt varchar(32), CONSTRAINT pk PRIMARY KEY (keyword)) 
+
+CREATE TABLE IF NOT EXISTS my_schema.goods_push (unique_id VARCHAR(32) not null, goods_push_id integer, message_id VARCHAR(64), user_id integer, robot_id integer, group_id integer, sku_id CHAR(32), sku_name VARCHAR(512), material_url VARCHAR(1024), jd_price VARCHAR(255), image_url VARCHAR(1024), pin_gou_price VARCHAR(255), coupon_price VARCHAR(255), coupon_url VARCHAR(1024), coupon_discount CHAR(255), commission VARCHAR(255), reasons VARCHAR(1024), promotion_text VARCHAR(2000), source VARCHAR(255), error_msg VARCHAR(255), img_url_List VARCHAR(1024), commission_share VARCHAR(255), type TINYINT, status TINYINT, created DATE, modified DATE, CONSTRAINT pk PRIMARY KEY (unique_id)) 
+ COMPRESSION='SNAPPY'  SPLIT ON ('01|','03|','05|','07|','09|','11|','13|','15|','17|','19|','21|','23|','25|','27|','29|','31|','33|','35|','37|','39|','41|','43|','45|','47|','49|','51|','53|','55|','57|','59|');
+
+delete from  my_schema.goods_push where unique_id between '2219120520200001234567/' and '2219120520200001234567:'
+
+select count(1) from  my_schema.goods_push where unique_id between '2219120520200001234567/' and '2219120520200001234567:'
+
+delete from  my_schema.goods_push where unique_id in ( '21191205202000012345673308127','08200905202000012345672558358','25200805202000012345671833835');
+
+select * from  my_schema.goods_push where unique_id in ( '21191205202000012345673308127','08200905202000012345672558358','25200805202000012345671833835');

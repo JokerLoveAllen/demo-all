@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fenxiang.hbase.phoenix.dao.phoenix.PhoenixGoodsPushMapper">
+
+	<insert id="insertOne" parameterType="com.fenxiang.hbase.phoenix.domain.GoodsPushRecord">
+		upsert into my_schema.goods_push(unique_id, goods_push_id, message_id, user_id, robot_id, group_id, sku_id, sku_name, material_url, jd_price,
+		image_url, pin_gou_price, coupon_price, coupon_url, coupon_discount, commission, reasons, promotion_text, source,
+		 error_msg, type, status, created, modified, img_url_List, commission_share)
+		VALUES (#{uniqueId}, #{goodsPushId}, #{messageId}, #{userId}, #{robotId}, #{groupId}, #{skuId}, #{skuName}, #{materialUrl}, #{jdPrice},
+		#{imageUrl}, #{pinGouPrice}, #{couponPrice}, #{couponUrl}, #{couponDiscount}, #{commission}, #{reasons}, #{promotionText}, #{source},
+		 #{errorMsg}, #{type}, #{status}, #{created}, #{modified}, #{imgUrlList}, #{commissionShare})
+	</insert>
+
+	<select id="count" resultType="java.lang.Integer">
+		select count(1) from my_schema.goods_push where unique_id between #{start} and #{end}
+	</select>
+</mapper>
+

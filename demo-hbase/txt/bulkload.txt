@@ -1,0 +1,81 @@
+1	Info:www.baidu.com	BaiDu
+2	Info:www.taobao.com	TaoBao
+
+# hdfs创建文件夹
+hdfs dfs -mkdir -p /bulk/input
+sudo -u hdfs hadoop fs -mkdir -p /bulk/input 
+
+# 上传文件到HDFS
+hdfs dfs -put /data/hbase/bulkload.txt   /bulk/input
+sudo -u hdfs hadoop fs -put /data/hbase/bulkload.txt   /bulk/input
+
+# list
+sudo -u hdfs hadoop fs -ls /bulk/input
+hdfs dfs -ls /bulk/input
+
+# cat
+hdfs dfs -cat /bulk/input/bulkload.txt
+
+# rm -r
+hdfs dfs -rm -r  /bulk/output
+sudo -u hdfs hadoop fs -rm
+
+# execute jar hadoop和hbase原生的 bulkload 
+sudo -u hdfs hadoop jar /data/hbase/hbase_bulk-1.0.jar com.fenxiang.hbase.GenerateHFileDriver
+
+# phoenix bulk load 文件的路径是指HDFS内的路径 {100W条数据mapreduce执行3分钟完成}
+cd /${phoenix_home}/
+HADOOP_CLASSPATH=/usr/local/hbase/lib/hbase-protocol-1.3.6.jar:/usr/local/hbase/conf hadoop jar phoenix-4.14.3-HBase-1.3-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool -t MY_SCHEMA.GOODS_PUSH -i /bulk/input/phoenix.txt -z hbase1
+
+HADOOP_CLASSPATH=/usr/local/hbase/lib/hbase-protocol-1.3.6.jar:/usr/local/hbase/conf hadoop jar phoenix-4.14.3-HBase-1.3-client.jar org.apache.phoenix.mapreduce.JsonBulkLoadTool -t MY_SCHEMA.GOODS_PUSH -i /bulk/input/phoenix.txt -z hbase1
+
+http://archive.cloudera.com/cdh5/cdh/5/hbase-1.2.0-cdh5.15.0.tar.gz
+
+http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.15.0.tar.gz
+
+sudo -u hdfs hadoop jar phoenix-4.7.0-clabs-phoenix1.3.0-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool -t MY_SCHEMA.GOODS_PUSH -i /bulk/input/20200110_0.csv -z hadoop01,hadoop02,hadoop03
+
+-- yarn内存不足
+yarn.scheduler.maximum-allocation-mb = 8 GiB
+mapreduce.map.memory.mb  = 4 GiB
+mapreduce.reduce.memory.mb = 4 GiB
+
+-- hbase 
+hbase.mapreduce.bulkload.max.hfiles.perRegion.perFamily=1024
+
+-- deny--
+sudo -u hdfs hdfs dfs -chmod 775 /
+sudo -u hdfs hdfs dfs -mkdir /user
+sudo -u hdfs hdfs dfs -chown hbase:hbase /user
+sudo -u hdfs hdfs dfs -mkdir /tmp
+sudo -u hdfs hdfs dfs -chown hbase:hbase /tmp
+
+-- squirrel
+防火墙打开zk和HregionServer 端口
+
+
+create 'my_schema.goods_push',{NAME =>'0', COMPRESSION => 'SNAPPY'}, {SPLITS => ['10000000000000000','20000000000000000','30000000000000000','40000000000000000','50000000000000000','60000000000000000','70000000000000000','80000000000000000','90000000000000000','100000000000000000','110000000000000000','120000000000000000','130000000000000000','140000000000000000','150000000000000000','160000000000000000','170000000000000000','180000000000000000','190000000000000000','200000000000000000','210000000000000000','220000000000000000','230000000000000000','240000000000000000','250000000000000000','260000000000000000','270000000000000000','280000000000000000','290000000000000000','300000000000000000','310000000000000000','320000000000000000','330000000000000000','340000000000000000','350000000000000000','360000000000000000','370000000000000000','380000000000000000','390000000000000000','400000000000000000','410000000000000000','420000000000000000','430000000000000000','440000000000000000','450000000000000000','460000000000000000','470000000000000000','480000000000000000','490000000000000000','500000000000000000','510000000000000000','520000000000000000','530000000000000000','540000000000000000','550000000000000000','560000000000000000','570000000000000000','580000000000000000','590000000000000000']}
+
+# id 规则: Rule: ( fmt(mmHHddMMyyyy) * 10**6 | bin(range(0-999999)))
+预分区规则
+10000000000000000L
+30000000000000000L
+.
+.
+.
+.
+.
+590000000000000000L
+
+
+7180 8088 50070
+hdfs dfs -put /
+sudo -u hdfs hadoop jar phoenix-4.7.0-clabs-phoenix1.3.0-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool -t MY_SCHEMA.GOODS_PUSH -i /bulk/input/20191224_0.csv -z hadoop01,hadoop02,hadoop03
+
+--批量任务
+nohup hadoop jar /opt/cloudera/parcels/CLABS_PHOENIX/lib/phoenix/./phoenix-4.7.0-clabs-phoenix1.3.0-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool -t MY_SCHEMA.GOODS_PUSH -i /bulk/input/20191224_0.csv -z hadoop01,hadoop02,hadoop03 >/dev/null 2>&1 &
+
+HADOOP_CLASSPATH=/opt/cloudera/parcels/CDH/lib/hbase/lib/hbase-protocol-1.2.0-cdh5.16.2.jar:/opt/cloudera/parcels/CDH/lib/hbase/conf hadoop jar /opt/cloudera/parcels/CLABS_PHOENIX/lib/phoenix/./phoenix-4.7.0-clabs-phoenix1.3.0-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool -t MY_SCHEMA.GOODS_PUSH -i /bulk/input/20191225_0.csv -z hadoop01,hadoop02,hadoop03
+
+/opt/module/cloudera-manager/cm-5.16.2/share/cmf/schema/scm_prepare_database.sh mysql cm -hhadoop01 -uroot -pffffff --scm-host hadoop01 scm scm scm
+

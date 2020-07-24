@@ -1,0 +1,272 @@
+# 创建
+PUT recommend/
+
+# 获取
+GET /recommend/goods/1696985
+
+# 删除
+DELETE /recommend/goods/1696985
+
+# 删除
+DELETE /recommend
+
+# 创建
+PUT recommend/
+
+# 建表
+PUT recommend/goods/_mapping
+{
+  "properties":{
+      "recommend_goods_id":{
+		  "index": true,
+          "type":"integer"
+      },
+      "sku_id":{
+          "type":"long"
+      },
+	  "sku_name":{
+          "type":"text",
+          "fielddata": true,
+          "index": true
+      },
+      "material_url":{
+		  "index": false,
+          "type":"text"
+      },
+      "jd_price":{
+          "type":"text",
+          "fielddata": true,
+          "index": true
+      },
+	  "image_url":{
+        "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "img_url_list":{
+        "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "cid1":{
+		  "index": true,
+        "type":"long"
+      },
+	  "cid2":{
+		  "index": true,
+          "type":"long"
+      },
+	  "cid3":{
+		  "index": true,
+          "type":"long"
+      },
+	  "coupon_url":{
+       "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "coupon_take_begin_time":{
+		  "index": true,
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+	  "coupon_take_end_time":{
+		  "index": true,
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+	  "coupon_use_begin_time":{
+		  "index": true,
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+      "coupon_use_end_time":{
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+	  "coupon_price":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "coupon_discount":{
+          "type":"long"
+      },
+	  "coupon_quota":{
+          "type":"long"
+      },
+	  "commission":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "reasons":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "pin_gou_price":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "pingou_tm_count":{
+          "type":"long"
+      },
+	  "pingou_url":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "commission_share":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "top":{
+          "type":"integer"
+      },
+	  "ac_top":{
+          "type":"integer"
+      },
+	  "comments":{
+          "type":"integer"
+      },
+	  "good_comments_share":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "in_order_count_30days":{
+          "type":"long"
+      },
+	  "tags":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "tags_time":{
+          "type":"long"
+      },
+	  "owner":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "brand_code":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "brand_name":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "spuid":{
+        "type":"text",
+        "index": true
+      },
+	  "shop_id":{
+        "type":"text",
+        "index": true
+      },
+	  "shop_name":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "show_in_page":{
+          "type":"integer"
+      },
+	  "ad_tags":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "source":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "good_type":{
+          "type":"integer"
+      },
+	  "original_sku_name":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "service_charge":{
+          "type":"text"
+      },
+	  "input_name":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "coupon_num":{
+          "type":"long"
+      },
+	  "coupon_remain_num":{
+          "type":"long"
+      },
+	  "coupon_num_reduce_last10m":{
+          "type":"long"
+      },
+	  "coupon_num_reduce_last2h":{
+          "type":"long"
+      },
+	  "coupon_num_reduce_last24h":{
+          "type":"long"
+      },
+	  "recommend":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "image_owner_url":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "is_inspection":{
+          "type":"integer"
+      },
+	  "shelf_time":{
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+	    "inspection_top":{
+          "type":"integer"
+      },
+	    "below_reason":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	    "below_time":{
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+	    "status":{
+          "type":"integer"
+      },
+	  "created":{
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+	  "modified":{
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+      },
+	  "reco_channel":{
+          "type":"text",
+        "fielddata": true,
+        "index": true
+      },
+	  "coupons_flag":{
+          "type":"integer"
+      }
+  }
+}

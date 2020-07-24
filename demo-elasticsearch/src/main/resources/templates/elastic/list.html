@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <!-- hidden area start -->
+    <!--<input type="hidden" id="orderFrom1" th:value="${orderFrom}"/>-->
+    <!--<input type="hidden" id="tktTypeId" th:value="${ticketTypeId}"/>-->
+    <!-- hidden area end -->
+    <div class="col-sm-12">
+        <div class="ibox">
+            <form class="form-horizontal m-t" id="signupForm">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">名称:</label>
+                    <div class="col-sm-3 nopadding">
+                        <input id="names" type="text" class="form-control"
+                               placeholder="" name="txtGroup">
+                    </div>
+                    <i class="col-sm-1"></i>
+                    <label class="col-sm-1 control-label">内容:</label>
+                    <div class="col-sm-3 nopadding">
+                        <input id="contents" type="text" class="form-control"
+                               placeholder="" name="txtGroup">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">销售价格</label>
+                    <div class="col-sm-3 nopadding">
+                        <input id="lowerPrice" type="number" class="form-control"
+                               placeholder="" name="txtGroup">
+                    </div>
+                    <label class="col-sm-1 control-label">至</label>
+                    <div class="col-sm-3 nopadding">
+                        <input id="higherPrice" type="number" class="form-control"
+                               placeholder="" name="txtGroup">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">销售时间</label>
+                    <div class='input-group date col-sm-3 pull-left' id='datetimepicker6'>
+                        <input type='text' class="form-control" id = "lowerSellTime" name="txtGroup"/>
+                        <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+                    </div>
+                    <label class="col-sm-1 control-label pull-left"> 至 </label>
+                    <div class='input-group date col-sm-3 pull-left' id='datetimepicker7'>
+                        <input type='text' class="form-control" id="higherSellTime" name="txtGroup"/>
+                        <span class="input-group-addon">
+					                    <span class="glyphicon glyphicon-calendar"></span>
+					                </span>
+                    </div>
+                </div>
+            </form>
+
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+                         <button type="button" class="btn  btn-primary"
+                            onclick="addOne()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>新增
+                        </button>
+                    </div>
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reLoad()">查询</button>
+                    </div>
+                    <div class="columns pull-right">
+                        <button type="button" class="btn  btn-primary"
+                                onclick="batchClear()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>清除
+                        </button>
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script src="/static/js/plugins/datapicker/moment-with-locales.js"></script>
+<script src="/static/js/plugins/datapicker/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/static/js/appjs/elastic/list.js"></script>
+</body>
+</html>

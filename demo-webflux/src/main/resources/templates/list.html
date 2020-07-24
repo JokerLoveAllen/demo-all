@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style></style>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>a字段</th>
+            <th>b字段</th>
+            <th>c字段</th>
+            <th>d字段</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="data : ${dataList}">\
+                <td th:text="${data.id}"></td>
+                <td th:text="${data.a}"></td>
+                <td th:text="${data.b}"></td>
+                <td th:text="${data.c}"></td>
+                <td th:text="${data.d}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

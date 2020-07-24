@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style></style>
+</head>
+<body>
+    <button style="font-size: 56px; height: 200px; width: 200px" onclick="odd()">
+        fxxk cors ! !
+    </button>
+    <button style="font-size: 56px; height: 200px; width: 200px" onclick="even()">
+        fxxk cors ! ! !
+    </button>
+    <script type="text/javascript">
+        function odd() {
+            $.ajax({
+                cache : false,
+                type : "GET",
+                url : "http://search.qianlima.com/api/v1/visit/permission/getGvieUserVisitNum",//?userName=123456&visitType=2
+                data : {"userName":"123456",
+                    "visitType":"2"},
+                async : false,
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                error : function(request) {
+                    alert("error!!")
+                },
+                success : function(data) {
+                    alert(data.status+ "::" +data.data+ "::" +data.msg)
+                }
+            });
+        }
+        function even() {
+            $.ajax({
+                cache : false,
+                type : "GET",
+                url : "http://search1.qianlima.com/api/v1/visit/permission/getGvieUserVisitNum",//?userName=123456&visitType=2
+                data : {"userName":"123456", "visitType":"2"},
+                async : true,
+                error : function(request) {
+                    alert("error!!")
+                },
+                success : function(data) {
+                    alert(data.status+ "::" +data.data+ "::" +data.msg)
+                }
+            });
+        }
+    </script>
+    <script src="/static/js/jquery.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+https://blog.csdn.net/czz1141979570/article/details/86658416
+https://www.jianshu.com/p/6ed49531ad29
+>>操作系统版本: centos 6.8
+>>MySQL数据库版本: 5.6.24
+>>CM版本: CM  5.12.1
+>>CDH版本: CDH 5.12.1
+>>采用root对集群进行部署
+
+1 三台服务器，全部内网互通 关闭selinux、防火墙， java环境准备好，更新yum源（使用阿里云镜像源)
+2 主服务器安装mysql ，主从服务器安装ntp时钟同步，主从安装cdh各种依赖
+3 安装cm和离线仓库
+
+
+useradd --system --home=/opt/module/cloudera-manager/cm-5.16.2/run/cloudera-scm-server --no-create-home --shell=/bin/false --comment "Cloudera SCM User" cloudera-scm
+/opt/module/cloudera-manager/cm-5.16.2/share/cmf/schema/scm_prepare_database.sh mysql cm -hhadoop01 -uroot -pffffff --scm-host hadoop01 scm scm scm
+chown cloudera-scm:cloudera-scm /opt/cloudera/parcel-repo/
+
+## centos6
+http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.16.2-1.cdh5.16.2.p0.8-el6.parcel
+http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.16.2-1.cdh5.16.2.p0.8-el6.parcel.sha1
+http://archive.cloudera.com/cdh5/parcels/latest/manifest.json
+http://archive.cloudera.com/cloudera-labs/phoenix/parcels/1.2.0/manifest.json
+http://archive.cloudera.com/cloudera-labs/phoenix/parcels/1.2.0/CLABS_PHOENIX-4.5.2-1.clabs_phoenix1.2.0.p0.774-el6.parcel
+http://archive.cloudera.com/cloudera-labs/phoenix/parcels/1.2.0/CLABS_PHOENIX-4.5.2-1.clabs_phoenix1.2.0.p0.774-el6.parcel.sha1
+
+## centos7
+http://archive.cloudera.com/cdh5/parcels/5.16.2/CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel.sha1
+http://archive.cloudera.com/cdh5/parcels/5.16.2/CDH-5.16.2-1.cdh5.16.2.p0.8-el7.parcel
+http://archive.cloudera.com/cdh5/parcels/5.16.2/manifest.json
+http://archive.cloudera.com/cm5/cm/5/cloudera-manager-centos7-cm5.16.2_x86_64.tar.gz
+http://archive.cloudera.com/cloudera-labs/phoenix/parcels/1.3.0.2/CLABS_PHOENIX-4.7.0-1.clabs_phoenix1.3.0.p0.000-el7.parcel
+http://archive.cloudera.com/cloudera-labs/phoenix/parcels/1.3.0.2/manifest.json
+http://archive.cloudera.com/cloudera-labs/phoenix/parcels/1.3.0.2/CLABS_PHOENIX-4.7.0-1.clabs_phoenix1.3.0.p0.000-el7.parcel.sha1
+scp -r /opt/cloudera/ root@hbase2:/opt/
+
+rm -rf /opt/module/cloudera-manager/cm-5.16.2/lib/cloudera-scm-agent/*
+rm -rf /opt/cloudera/parcels/* /opt/cloudera/parcel-cache/*
+
+rm -rf /opt/cloudera/parcels
+mkdir /opt/cloudera/parcels
+chown cloudera-scm:cloudera-scm /opt/cloudera/parcels/
+
+vim /opt/module/cloudera-manager/cm-5.16.2/etc/cloudera-scm-agent/config.ini
+
+mysql -uroot -pffffff 
+drop database cm;
+/opt/module/cloudera-manager/cm-5.16.2/share/cmf/schema/scm_prepare_database.sh mysql cm -hhadoop01 -uroot -pffffff --scm-host hadoop01 scm scm scm
+
+rm -rf /data/mapr* /data/dfs /data/yarn
+
+rm -rf /opt/module/cloudera-manager/*
+rm -rf /opt/cloudera/parcel-cache/ /opt/cloudera/parcels/
+mkdir /opt/cloudera/parcels/
+chown cloudera-scm:cloudera-scm /opt/cloudera/parcels/
+
+scp -r /opt/module/cloudera-manager/* hadoop03:/opt/module/cloudera-manager/
+
+mkdir -p /var/datas/jobtracker
+mkdir -p /var/datas/tasktracker

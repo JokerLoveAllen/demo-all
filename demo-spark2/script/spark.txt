@@ -1,0 +1,2 @@
+提交:
+spark-submit --master spark://hadoop01:7077 --name WordCount  --class com.fenxiang.spark.Spark_Test ./scala-proj-0.0.1.jar

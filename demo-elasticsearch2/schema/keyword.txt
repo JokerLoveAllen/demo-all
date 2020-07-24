@@ -1,0 +1,83 @@
+# 使用es完成自动填充(搜索建议)
+# 建关联搜索索引
+PUT keyword_suggest
+{
+  "settings": {
+    "analysis": {
+        "analyzer": {
+            "ik_pinyin_analyzer": {
+                "type": "custom",
+                "tokenizer": "ik_max_word",
+                "filter": ["my_pinyin", "word_delimiter"]
+            }
+        },
+        "filter": {
+            "my_pinyin": {
+                "type": "pinyin",
+                "first letter": "prefix",
+                "padding_char": " "
+            }
+        }
+    }
+  },
+  "mappings": {
+      "suggest": {
+          "properties": {
+              "keyword": {
+                  "type": "completion",
+                  "analyzer": "ik_pinyin_analyzer",
+                  "fields": {
+                      "key": {
+                          "type": "keyword"
+                      }
+                  }
+              },
+              "id": {
+                  "type": "keyword"
+              },
+              "createDate": {
+                  "type": "date",
+                  "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis||yyyy-MM-dd'T'HH:mm:ssZZ"
+              }
+          }
+      }
+  }
+}
+
+# 导入关联数据
+POST _bulk/?refresh=true
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目进度"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目管理"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目进度及调整 汇总.doc_文档"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目进度"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目管理"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目进度及调整 汇总.doc_文档"}
+{ "index": { "_index": "keyword_suggest", "_type": "suggest" }}
+{ "keyword": "项目"}
+
+# 获取
+GET /keyword_suggest/_search
+{
+    "suggest": {
+        "my-suggest": {
+            "prefix": "xiang",
+            "completion": {
+                "field": "keyword",
+                "size": 200,
+                "skip_duplicates": true
+            }
+        }
+    }
+}

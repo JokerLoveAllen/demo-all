@@ -1,0 +1,6 @@
+hive:
+  url: jdbc:hive2://hadoop01:10000/mytest
+  driver-class-name: org.apache.hive.jdbc.HiveDriver
+  type: com.alibaba.druid.pool.DruidDataSource
+  username: hive
+  password: hive

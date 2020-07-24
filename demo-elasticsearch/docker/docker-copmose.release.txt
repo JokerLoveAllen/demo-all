@@ -1,0 +1,77 @@
+url:https://stackoverflow.com/a/44005640
+下面三个文件在一个目录里面 撰写完成后,使用 docker-compose up启动
+# 以7.3.1为例 kibana和elasticsearch需要在同一个网络里面,
+
+--docker-compose.yml
+
+version: '2.2'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+    container_name: elasticsearch_731
+    environment:
+      #- http.host=0.0.0.0
+      #- transport.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9700:9200
+      - 9800:9300
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 2g
+    cap_add:
+      - IPC_LOCK
+    networks:
+      - esnet
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.3.1
+    container_name: kibana_731
+    environment:
+      - SERVER_HOST=0.0.0.0
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 9600:5601
+    expose:
+      - 5601
+    networks:
+      - esnet
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch          
+volumes:
+  esdata:
+   driver: local
+networks:
+  esnet:
+	
+--elasticsearch.yml
+
+#集群配置和单机的配置,单机模式打开下面的注释,注释掉cluster相关
+#discovery.type: "single-node"
+cluster.name: "docker-cluster"
+node.name: "docker-es-single-node"
+cluster.initial_master_nodes: "docker-es-single-node"
+network.host: 0.0.0.0
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: "Authorization"
+
+--kibana.yml:
+
+server.name: kibana
+server.host: "0"
+## from es7+ elasticsearch.hosts instead elasticsearch.url
+elasticsearch.hosts: http://elasticsearch:9200
+elasticsearch.username: elastic
+elasticsearch.password: elastic
+xpack.monitoring.ui.container.elasticsearch.enabled: true
