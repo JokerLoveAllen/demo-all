@@ -18,7 +18,7 @@ import org.apache.spark.rdd.RDD
  *  因此在 Maven的安装目录内{和bin目录同级}添加 .mvn文件夹并新建 jvm.config
  *  jvm.config 增加构建使用的内存  export MAVEN_OPTS="-Xmx4g -XX:MaxPermSize=1g"
  */
-object SparkTest {
+object SparkRDDTest {
 
   @throws(classOf[Exception])
   def main(args: Array[String]) : Unit = {

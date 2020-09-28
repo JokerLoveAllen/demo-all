@@ -8,8 +8,8 @@ object Test01 {
   def main(arr:Array[String]){
     //		scala_common()
     //		scala_string(); //scala string
-    //		scala_array(); // scala array
-    //		scala_list();// scala list
+//    		scala_array(); // scala array
+    		scala_list();// scala list
     //		scala_set();// scala set
     //		scala_map();// scala map
     //		scala_tuple()
@@ -167,7 +167,7 @@ object Test01 {
    * Scala Set(集合)是没有重复的对象集合，所有的元素都是唯一的。
    * Scala 集合分为可变的和不可变的集合。
    * 默认情况下，Scala 使用的是不可变集合，
-   * 如果你想使用可变集合，需要引用 scala.collection.mutable.Set 包。
+z   * 如果你想使用可变集合，需要引用 scala.collection.mutable.Set 包。
    */
   def scala_set(): Unit ={
     //   对不可变Set进行操作(add/remove)，会产生一个新的set，原来的set并没有改变
@@ -182,8 +182,8 @@ object Test01 {
     set2-=(9)//或者set1-(x,y,z,...)移除集合中的元素，并创建一个新的集合
     println("进行删除添加元素后:",set1,set2)
     println("可变集合:",set1.toSet.getClass.getName)//可变集合
-    println(" ++ 运算符号 合并两个集合",set1 ++ set2)//++运算符号合 并两个集合
-    println(" .++() 方法 合并两个集合",set1 .++ (set2))//.++()方法 合并两个集合
+//    println(" ++ 运算符号 合并两个集合",set1++set2)//++运算符号合 并两个集合
+//    println(" .++() 方法 合并两个集合",set1.++(set2))//.++()方法 合并两个集合
     println("取交集[3种]:",set1.&(set2),set1.intersect(set2),set1 & set2)//取交集[3种]
     println("取差集[3种]:",set1 &~ set2,set2.&~(set1),set2.diff(set1))//返回两个集合的差集[3种]
     println("返回不可变集合中数字元素的积::",set1.product)//返回不可变集合中数字元素的积
@@ -260,7 +260,7 @@ object Test01 {
     println("检测列表是否以指定序列结尾",lst9.endsWith(lst10))//检测列表是否以指定序列结尾
     println("检测所有的元素是否以制定结尾",lst10.forall(s=>s.endsWith("s")))//检测所有的元素是否以制定结尾
     println("判断是否相等",lst9.equals(lst10))//判断是否相等
-    println("判断列表中指定条件的元素是否存在",lst9.exists(p=>p==23))//判断列表中指定条件的元素是否存在
+    println("判断列表中指定条件的元素是否存在",lst9.exists(p=>p==23))//=exists(_==23) 等于 contains(23) 判断列表中指定条件的元素是否存在
     println("输出符号指定条件的所有元素",lst10.filter(p=>p.length==3))//输出符号指定条件的所有元素
     println("将函数应用到列表的所有元素","def foreach(f: (A) => Unit): Unit")//将函数应用到列表的所有元素
     println("获取列表的第一个元素",lst9.head)//获取列表的第一个元素
@@ -287,7 +287,7 @@ object Test01 {
    * 元组的值是通过将单个的值包含在圆括号中构成的
    */
   def scala_tuple(): Unit ={
-    val t1 = new Tuple2(1,3)//创建元组时要定长?!
+    val t1 = (1,3)//创建元组时要定长?!
     val t2 = (3,4,5,6,7,8,9)
     println("交换后的元组:",t1.swap)//两个元素时候可以交换
     t2.productIterator.foreach{i =>println("value = ",i)}//遍历元组

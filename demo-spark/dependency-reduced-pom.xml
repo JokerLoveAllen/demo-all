@@ -43,7 +43,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.fenxiang.spark.SparkTest</mainClass>
+                  <mainClass>com.fenxiang.spark.SparkRDDTest</mainClass>
                 </transformer>
               </transformers>
               <filters>
