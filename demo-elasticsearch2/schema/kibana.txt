@@ -7,15 +7,23 @@ GET /recommend/goods/1696985
 # 删除
 DELETE /recommend/goods/1696985
 
+GET goods_recommend/_count
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
 # 删除
-DELETE /recommend
+DELETE /goods_recommend
 
 # 创建
-PUT recommend/
+PUT goods_recommend/
 
 # 建表
 PUT goods_recommend/goods/_mapping
-"properties" : {
+{
+  "properties" : {
       "ac_top" : {
         "type" : "integer"
       },
@@ -242,4 +250,6 @@ PUT goods_recommend/goods/_mapping
       "top" : {
         "type" : "integer"
       }
-    }
+  }
+
+}
